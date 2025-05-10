@@ -10,4 +10,5 @@
 
 ## 폴더 구조
 
-![FolderStructure](./FolderStructure.png)
+<img width="278" alt="image" src="https://github.com/user-attachments/assets/8513c405-98e7-4811-92aa-85e554fc9e8e" />
+
