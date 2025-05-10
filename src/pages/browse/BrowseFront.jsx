@@ -1,7 +1,9 @@
 import styled from "styled-components";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom"; // ✅ 추가
+import { useNavigate } from "react-router-dom";
+
+import Letter from "../letter/Letter"
+
+import { Text } from "../../components/Typography/default";
 
 import letterBg1 from "../../assets/imgs/letter1.jpeg";
 import letterBg2 from "../../assets/imgs/letter2.jpeg";
@@ -11,96 +13,45 @@ import letterBg5 from "../../assets/imgs/letter5.jpeg";
 import letterBg6 from "../../assets/imgs/letter6.jpeg";
 import writeIcon from "../../assets/imgs/write.png";
 
-const letterBgList = [letterBg1, letterBg2, letterBg3, letterBg4, letterBg5, letterBg6];
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../../features/user/userSlice";
 
-const Post = () => {
-  const navigate = useNavigate(); 
-  const [selectedBg, setSelectedBg] = useState(letterBg1);
-  const [content, setContent] = useState("");
-  const [abbrReceiver, setAbbrReceiver] = useState("");
+const BrowseFront = () => {
 
-  const userInfo = useSelector((state) => state.user.value);
-
-  const handleBackClick = () => {
-    navigate("/letter"); 
-  };
+    const navigate = useNavigate();
+    const userInfo = useSelector((state) => state.user.value);
 
   return (
-    <Container>
-      <Title>ㄱㄷ에게</Title>
-      <LetterSub>받는 사람을 입력하세요</LetterSub>
+    <LetterBox>
+      <LetterBackground src={letterBg5} alt="letter background" />
+      <LetterText>
+        <span>소중한 사람에게</span>
 
-      <LetterBox>
-        <LetterBackground src={selectedBg} alt="letter background" />
-        <LetterText>
-          <LineWithIcon>
-            <ReceiverInput
-              value={abbrReceiver}
-              onChange={(e) => {
-                if (e.target.value.length <= 6) setAbbrReceiver(e.target.value);
-              }}
-              placeholder={"상대방"}
-            />
-            <span>에게</span>
-            <Icon src={writeIcon} alt="write icon" />
-          </LineWithIcon>
 
-          <ContentArea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="당신의 진심을 전달해보세요"
-            rows={6}
-          />
-        </LetterText>
+        <ContentArea>당신의 진심을 전달해 보세요.</ContentArea>
+      </LetterText>
 
-        <FromText>{userInfo.name}(이)가</FromText>
-      </LetterBox>
+      <FromText>{userInfo.name}(이)가</FromText>
+      <WriteIcon src={writeIcon} onClick={() => navigate("/post")} onMouseEnter={() => {}}/>
+    </LetterBox>
 
-      <ActionText>더 많은 내용 작성 &gt;</ActionText>
+  )
+}
 
-      <ThumbnailRow>
-        {letterBgList.map((bg, index) => (
-          <Thumbnail
-            key={index}
-            src={bg}
-            alt={`letter ${index + 1}`}
-            onClick={() => setSelectedBg(bg)}
-            isSelected={selectedBg === bg}
-          />
-        ))}
-      </ThumbnailRow>
-
-      <ButtonWrap>
-        <Button>대학교 선택하기</Button>
-        <Button>전송하기</Button>
-        <Button onClick={handleBackClick}>되돌아가기</Button> {/* ✅ 동작 */}
-      </ButtonWrap>
-    </Container>
-  );
-};
-
-export default Post;
-
-// ✅ styled-components 정의
 const Container = styled.div`
   width: 100%;
-  max-width: 420px;
   min-height: 2320px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   background: white;
   position: relative;
   font-family: 'DungGeunMo', sans-serif;
   padding: 40px 20px;
   box-sizing: border-box;
-`;
+  display:flex;
+  align-items: center;
+  flex-direction: column;
 
-const Title = styled.h1`
-  font-size: 32px;
-  text-align: left;
-  border-bottom: 3px solid black;
-  padding-bottom: 8px;
-  margin-top: 50px;
-  margin-bottom: 10px;
+  overflow-y: visible;
 `;
 
 const LetterSub = styled.p`
@@ -110,15 +61,17 @@ const LetterSub = styled.p`
 `;
 
 const LetterBox = styled.div`
-  position: relative;
-  width: 100%;
-  margin: 0 auto 20px;
+    position: relative;
+    width: 100%;
+    max-width: 370px;
+    margin-bottom: 40px;
+    align-items: center;
 `;
 
 const LetterBackground = styled.img`
   width: 100%;
   height: auto;
-  pointer-events: none;
+  pointer-events: none; 
 `;
 
 const LetterText = styled.div`
@@ -127,7 +80,7 @@ const LetterText = styled.div`
   left: 35px;
   right: 30px;
   z-index: 10;
-  color: black;
+  color:black;
   font-size: 18px;
   display: flex;
   flex-direction: column;
@@ -140,9 +93,19 @@ const LineWithIcon = styled.div`
   gap: 6px;
 `;
 
-const ReceiverInput = styled.input`
+const WriteIcon = styled.img`
+  width: 70px;
+  height: auto;
+  position: absolute;
+  z-index: 30;
+  top: calc(50% - 35px);
+  left: calc(50% - 35px);
+  
+`
+
+const ReceiverInput = styled.div`
   position: relative;
-  z-index: 20;
+  z-index: 20; 
   font-size: 18px;
   border: none;
   border-bottom: 1px solid black;
@@ -157,6 +120,11 @@ const Icon = styled.img`
   height: 15px;
 `;
 
+const Line = styled.div`
+  font-size: 18px;
+  line-height: 2.23;
+`;
+
 const FromText = styled.div`
   position: absolute;
   bottom: 30px;
@@ -166,7 +134,7 @@ const FromText = styled.div`
   font-family: 'DungGeunMo', sans-serif;
 `;
 
-const ContentArea = styled.textarea`
+const ContentArea = styled.div`
   font-size: 18px;
   font-family: 'DungGeunMo', sans-serif;
   background: transparent;
@@ -226,3 +194,5 @@ const Button = styled.button`
   cursor: pointer;
   width: 80%;
 `;
+
+export default BrowseFront;

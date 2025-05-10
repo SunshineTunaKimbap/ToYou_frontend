@@ -1,16 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 
 import styled from "styled-components";
 
 const TextInput = (props) => {
-  const [input, setInput] = useState("");
   const inputRef = useRef(null);
 
   const isActivate = useSelector((state) => state.messenger.value);
 
   const handleChange = (event) => {
-    setInput(event.target.value)
+    props.setInput(event.target.value)
   }
 
   useEffect(() => {
@@ -21,7 +20,7 @@ const TextInput = (props) => {
 
   return (
     <Container>
-      <InputBox type="text" value={input} onChange={handleChange} onClick={(e) => {e.stopPropagation()}} maxLength={props.maxLength} ref={inputRef} />
+      <InputBox type="text" value={props.input} onChange={handleChange} onClick={(e) => {e.stopPropagation()}} maxLength={props.maxLength} ref={inputRef} />
     </Container>
   );
 }

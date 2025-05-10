@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const messengerSlice = createSlice({
   name: "messenger",
   initialState: {
-    value: false,
+    value: true,
   },
   reducers: {
     activate: (state) => {
