@@ -1,18 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { activate, deactivate } from "../../features/messenger/messengerSlice";
+import { activate } from "../../features/messenger/messengerSlice";
 
 import styled from "styled-components";
 
 import Remote from "../../assets/imgs/folderphone.png"
+
 import { messengerMobileSize, messengerPcSize } from "../../constant/messengerSize";
+import { remoteComponents } from "../../constant/remoteComponents";
 
 const Messenger = () => {
   const [remoteSize, setRemoteSize] = useState(messengerPcSize);
 
   const isActivate = useSelector((state) => state.messenger.value);
   const dispatch = useDispatch();
+
+  const remoteName = useSelector((state) => state.remote.value);
+
+  const RemoteComponent = useMemo(() => {
+    return remoteComponents[remoteName]
+  }, [remoteName])
 
   useEffect(() => {
     const isMobileDevice = /Mobi|Android|iPhone/i.test(navigator.userAgent);
@@ -23,40 +31,52 @@ const Messenger = () => {
   }, [])
 
   const onClick = () => {
-    if (isActivate) {
-      dispatch(deactivate());
-    } else {
+    if (!isActivate) {
       dispatch(activate());
     }
   }
 
   return (
-    <Container $up={isActivate} onClick={onClick}>
-      <Image src={Remote} alt="/folderphone.png" width={`${remoteSize.width}px`} height={`${remoteSize.height}px`}/>
+    <Container $up={isActivate} $messengerWidth={remoteSize.width} onClick={onClick}>
+      <LayerContainer>
+        <ImageLayer>
+          <Image src={Remote} alt="/folderphone.png" width={`${remoteSize.width}px`} height={`${remoteSize.height}px`}/>
+        </ImageLayer>
+        <RemoteLayer>
+          {<RemoteComponent />}
+        </RemoteLayer>
+      </LayerContainer>
     </Container>
   );
 }
-
-const BlurContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-
-  /* filter: blur(10px) */
-`;
 
 const Container = styled.div`
   position: absolute;
   top: ${props => props.$up ? '50vh' : '90vh'};
 
-  display: flex;
-  justify-content: center;
+  left: calc(50vw - ${props => props.$messengerWidth / 2}px);
 
   width: 100vw;
   height: 100vh;
 
   transition: top 0.25s ease-out;
+`;
 
-  background-color: ${props => props.$up ? 'blue' : 'red'};
+const LayerContainer = styled.div``;
+
+const ImageLayer = styled.div`
+  position: absolute;
+
+  z-index: 2;
+`;
+
+const RemoteLayer = styled.div`
+  position: absolute;
+
+  z-index: 3;
+
+  top: 150px;
+  left: 70px;
 `;
 
 const Image = styled.img`
