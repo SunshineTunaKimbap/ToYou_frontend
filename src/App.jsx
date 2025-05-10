@@ -7,6 +7,8 @@ import Browse from './pages/browse/Browse';
 import Post from './pages/post/Post';
 import LetterView from './pages/letter/LetterView';
 
+import Back from './pages/letter/Back';
+
 
 function App() {
   return (
@@ -28,6 +30,7 @@ function App() {
               }/>
             } />
           <Route path="/letter/:letterid" element={<LetterView info={{abbrReceiver:"ㄱㅅㅇ", content:"안녕."}}/>} />
+          <Route path="/back" element={<Back />} />
           <Route path="/post" element={<Post />} />
         </Route>
       </Routes>

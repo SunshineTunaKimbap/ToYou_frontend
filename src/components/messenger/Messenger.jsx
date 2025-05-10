@@ -20,7 +20,7 @@ const Messenger = () => {
 
   const RemoteComponent = useMemo(() => {
     return remoteComponents[remoteName]
-  }, [remoteName])
+  }, [remoteName]);
 
   useEffect(() => {
     const isMobileDevice = /Mobi|Android|iPhone/i.test(navigator.userAgent);

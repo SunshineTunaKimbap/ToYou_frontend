@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { useDispatch, useSelector } from "react-redux";
 import { deactivate } from "../features/messenger/messengerSlice";
@@ -6,6 +6,7 @@ import { deactivate } from "../features/messenger/messengerSlice";
 import styled from "styled-components";
 
 import Messenger from "../components/messenger/Messenger";
+// import { useEffect } from "react";
 
 const Root = () => {
   const isMessengerActivate = useSelector((state) => state.messenger.value);
@@ -13,8 +14,10 @@ const Root = () => {
   const isActivate = useSelector((state) => state.messenger.value);
   const dispatch = useDispatch();
 
+  const location = useLocation();
+
   const LowerContainerOnClick = () => {
-    if (isActivate) {
+    if (isActivate && location.pathname !== "/") {
       dispatch(deactivate());
     }
   }
@@ -26,7 +29,7 @@ const Root = () => {
       </UpperContainer>
 
 
-      <LowerContainer $blur={isMessengerActivate} onClick={LowerContainerOnClick}>
+      <LowerContainer $blur={isMessengerActivate && location.pathname !== "/" } onClick={LowerContainerOnClick}>
         <Outlet />
       </LowerContainer>
     </Overlay>
@@ -64,7 +67,9 @@ const LowerContainer = styled.div`
   width: 100vw;
   height: 100vh;
 
-  filter: blur(${props => props.$blur ? '3.7px' : 0});
+  filter: blur(${props => props.$blur ? '5px' : 0});
+  
+  transition: filter 0.25s ease-out;
 `;
 
 export default Root;

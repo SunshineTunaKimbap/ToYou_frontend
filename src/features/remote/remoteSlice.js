@@ -7,7 +7,7 @@ export const remoteSlice = createSlice({
   },
   reducers: {
     setRemote: (state, action) => {
-      const { newRemote } = action;
+      const { newRemote } = action.payload;
 
       state.value = newRemote;
     },
