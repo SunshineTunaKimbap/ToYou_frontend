@@ -10,7 +10,7 @@ const Letter = (props) => {
     <LetterBox>
       <LetterBackground src={letterBg} alt="letter background" />
       <LetterText>
-        {info.abbrReceiver} 에게<br />
+        {info.abbr_receiver} 에게<br />
         {info.content}
       </LetterText>
     </LetterBox>

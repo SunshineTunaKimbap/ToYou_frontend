@@ -3,16 +3,32 @@ import { useSelector } from "react-redux";
 
 import Letter from "../letter/Letter";
 import BrowseFront from "./BrowseFront";
+import { useEffect, useState } from "react";
+
+import { get_letters } from "../../apis/axios";
 
 const Browse = (props) => {
-  const userInfo = useSelector((state) => state.user.value); // ✅ 사용자 이름 가져오기
+  const [letters, setLetters] = useState([]);
+  const userInfo = useSelector((state) => state.user.value);
+
+  useEffect(() => {
+    get_letters(userInfo.name).then((response) => {
+      setLetters(response["letters"]);
+    })
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(letters)
+  // }, [letters])
+
+  if (letters.length === 0) return null;
 
   return (
     <Container>
-      <Title>{userInfo.name || "익명"}의 편지함</Title> {/* ✅ 타이틀 */}
+      <Title>{userInfo.name || "당신"}에게 온 편지</Title> {/* 타이틀 */}
       <BrowseFront />
       {
-        props.infoList.map((info, index) => (
+        letters.map((info, index) => (
           <Letter key={index} info={info} />
         ))
       }

@@ -67,7 +67,9 @@ const LowerContainer = styled.div`
   width: 100vw;
   height: 100vh;
 
-  filter: blur(${props => props.$blur ? '3.7px' : 0});
+  filter: blur(${props => props.$blur ? '5px' : 0});
+  
+  transition: filter 0.25s ease-out;
 `;
 
 export default Root;

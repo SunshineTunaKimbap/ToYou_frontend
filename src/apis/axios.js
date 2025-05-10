@@ -1,6 +1,6 @@
 import axios from "axios";
 // axios 백엔드
-const url = "http://127.0.0.1:8000/";
+const url = "https://port-0-toyou-backend-maiqlrr889248347.sel4.cloudtype.app/";
 
 export const get_letters = async (name) => {
   const letters = await axios({

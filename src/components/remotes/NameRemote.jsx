@@ -20,7 +20,30 @@ const NameRemote = () => {
       return;
     }
 
-    dispatch(setUser({name, "school": ""}));
+    function getChosung(str) {
+      const CHOSUNG_LIST = [
+        "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ",
+        "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ",
+        "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ",
+        "ㅋ", "ㅌ", "ㅍ", "ㅎ"
+      ];
+      
+      let result = "";
+      for (let char of str) {
+        const code = char.charCodeAt(0);
+    
+        if (code >= 0xac00 && code <= 0xd7a3) {
+          const chosungIndex = Math.floor((code - 0xac00) / (21 * 28));
+          result += CHOSUNG_LIST[chosungIndex];
+        } else {
+          result += char;
+        }
+      }
+      return result;
+    }
+    const abbr=getChosung(name)
+
+    dispatch(setUser({"name": abbr, "school": ""}));
     dispatch(setRemote({newRemote: "browser"}));
   }
 

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom"; // ✅ 추가
+import { useNavigate } from "react-router-dom";
 
 import letterBg1 from "../../assets/imgs/letter1.jpeg";
 import letterBg2 from "../../assets/imgs/letter2.jpeg";
@@ -10,6 +10,8 @@ import letterBg4 from "../../assets/imgs/letter4.jpeg";
 import letterBg5 from "../../assets/imgs/letter5.jpeg";
 import letterBg6 from "../../assets/imgs/letter6.jpeg";
 import writeIcon from "../../assets/imgs/write.png";
+
+import { post_letters } from "../../apis/axios";
 
 const letterBgList = [letterBg1, letterBg2, letterBg3, letterBg4, letterBg5, letterBg6];
 
@@ -21,8 +23,19 @@ const Post = () => {
 
   const userInfo = useSelector((state) => state.user.value);
 
-  const handleBackClick = () => {
-    navigate("/letter"); 
+  const handleSendClick = () => {
+    // console.log(userInfo.name, abbrReceiver, content)
+
+    // post_letters({ name_sender: userInfo.name, name_receiver: abbrReceiver, content }).then(() => {
+    //   navigate("/letter");
+    // })
+
+    alert("전송이 완료되었습니다.");
+    navigate("/letter");
+  };
+
+  const handleSelectUnivClick = () => {
+    alert("아직 구현되지 않은 기능입니다!");
   };
 
   return (
@@ -71,9 +84,8 @@ const Post = () => {
       </ThumbnailRow>
 
       <ButtonWrap>
-        <Button>대학교 선택하기</Button>
-        <Button>전송하기</Button>
-        <Button onClick={handleBackClick}>되돌아가기</Button> {/* ✅ 동작 */}
+        <Button onClick={handleSelectUnivClick}>대학교 선택하기</Button>
+        <Button onClick={handleSendClick}>전송하기</Button>
       </ButtonWrap>
     </Container>
   );
@@ -81,7 +93,6 @@ const Post = () => {
 
 export default Post;
 
-// ✅ styled-components 정의
 const Container = styled.div`
   width: 100%;
   max-width: 420px;

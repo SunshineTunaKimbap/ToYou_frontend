@@ -25,9 +25,9 @@ const Browser = () => {
     dispatch(deactivate());
 
     if (index === 1) {
-      navigate("/letter");
-    } else {
       navigate("/post");
+    } else {
+      navigate("/letter");
     }
   }
 
