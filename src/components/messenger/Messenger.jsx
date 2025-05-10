@@ -1,13 +1,18 @@
 import { useEffect, useState } from "react";
 
+import { useSelector, useDispatch } from "react-redux";
+import { activate, deactivate } from "../../features/messenger/messengerSlice";
+
 import styled from "styled-components";
 
 import Remote from "../../assets/imgs/folderphone.png"
-import { messengerMobileSize, messengerPcSize } from "../../constant/messenger";
+import { messengerMobileSize, messengerPcSize } from "../../constant/messengerSize";
 
 const Messenger = () => {
   const [remoteSize, setRemoteSize] = useState(messengerPcSize);
-  const [isActivate, setIsActivate] = useState(true);
+
+  const isActivate = useSelector((state) => state.messenger.value);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const isMobileDevice = /Mobi|Android|iPhone/i.test(navigator.userAgent);
@@ -18,7 +23,11 @@ const Messenger = () => {
   }, [])
 
   const onClick = () => {
-    setIsActivate(!isActivate);
+    if (isActivate) {
+      dispatch(deactivate());
+    } else {
+      dispatch(activate());
+    }
   }
 
   return (
