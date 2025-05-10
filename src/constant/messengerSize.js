@@ -4,6 +4,6 @@ export const messengerPcSize = {
 };
 
 export const messengerMobileSize = {
-  width: 200,
-  height: 320,
+  width: 320,
+  height: 480,
 };
